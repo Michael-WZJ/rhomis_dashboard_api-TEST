@@ -31,6 +31,29 @@ app.use(bodyParser.json({ limit: "200mb" }));
 app.use(bodyParser.urlencoded({ limit: "200mb", extended: true }));
 
 
+
+//{/* 
+// 配置tunnel映射 wzj
+const tunnel = require("tunnel-ssh");
+const sshTunnelConfig = {
+  host: 'freeedm.top',
+  port: 22,
+  dstHost: 'localhost',
+  dstPort: '27017',
+  localHost: '127.0.0.1',
+  localPort: '27017',
+  username: 'zhijun',
+  privateKey: require('fs').readFileSync('./id_txserver')
+};
+tunnel(sshTunnelConfig, (error, server) => {
+  if (error) {
+    console.log("SSH connection error: ", error);
+  }
+})
+//*/}
+
+
+
 // Config Mongoose
 const mongoose = require("mongoose");
 
