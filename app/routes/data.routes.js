@@ -1,12 +1,20 @@
 module.exports = app => {
-    const express = require("express");
-    const router = express.Router();
-    const data = require("../controllers/data.controller.js");
+  const express = require("express");
+  const router = express.Router();
+  const data = require("../controllers/data.controller.js");
+  
+  // Define REST APIs
+  // Retrieve data by dataType
+  router.get("/:datatype", data.findDataByDataType);
 
-    // Define REST APIs
-    // Retrieve data by formID and dataType
-    router.get("/", data.findData);
+  router.get("/food_security/hfias", data.findHFIAS);
+
+  router.get("/food_security/food_shortage");
+
+  router.get("/food_security/hdds");
+
+  router.get("/food_security/food_consumed");
 
 
-    app.use("/api/data", router);
+  app.use("/api/data", router);
 }

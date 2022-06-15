@@ -4,7 +4,7 @@ const projectData = require("../models/projectData.model.js");
 
 // Retrieve projectData by projectID from the database.
 exports.findByProID = (req, res) => {
-    const projectID = req.query.proid;
+    const projectID = req.query.projectid;
     let condition = projectID ? {projectID: projectID} : {};
     projectData.find(condition)
         .then(data => {

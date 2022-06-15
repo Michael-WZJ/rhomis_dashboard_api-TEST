@@ -82,7 +82,7 @@ db.once("open", () => {
 // Config REST Routes
 // simple route for test
 app.get("/", (req, res) => {
-    res.json({message: "Welcome to rhomis_dashboard_api application."})
+  res.json({message: "Welcome to rhomis_dashboard_api application."})
 });
 
 // Define routes
@@ -93,5 +93,8 @@ require("./app/routes/data.routes")(app);
 // Set port, Listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}.`);
+  console.log(`Server is running on http://localhost:${PORT}.`);
 });
+
+// export app for test
+module.exports = app;
