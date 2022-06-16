@@ -19,6 +19,16 @@ exports.count = (indicatorDataList) => {
     return treeNode;
   }
 
+  function flatten(treeNode) {
+    if (treeNode === null) {
+      return [];
+    } else {
+      return [...flatten(treeNode.left),
+        {"value": treeNode.count, "name": treeNode.HFIAS},
+        ...flatten(treeNode.right)];
+    }
+  }
+
   let root = null;
   indicatorDataList.forEach(data => {
     let hfiasStatus = getHFIAS(data);
@@ -26,7 +36,7 @@ exports.count = (indicatorDataList) => {
       root = insert(hfiasStatus, root);
     }
   });
-  return root;
+  return flatten(root);
 };
 
 const getHFIAS = (indicatorData) => {
