@@ -1,4 +1,5 @@
 const foodSecurity = require("./foodSecurity.js");
+const dataProcessor = require("./dataProcessor.js");
 
 // Get Schema
 const data = require("../models/data.model.js");
@@ -11,7 +12,18 @@ const getData = async (dataType, project, form) => {
   const formID = form || {$ne: undefined};
   let condition = {dataType: dataType, projectID: projectID, formID: formID};
 
-  return data.find(condition);
+  let resultData = await data.find(condition);
+  console.log(resultData.length + " records of " + dataType); // wzj
+  return resultData;
+};
+
+//
+const getRawData = async (project, form) => {
+  const indicatorDataList = await getData("indicator_data", project, form);
+  const processedDataList = await getData("processed_data", project, form);
+  const rawData = dataProcessor.getRawData(indicatorDataList, processedDataList);
+  console.log(rawData.length + ": getRawData"); // wzj
+  return rawData;
 };
 
 
@@ -23,7 +35,7 @@ exports.findDataByDataType = (req, res) => {
 
   getData(dataType, projectID, formID)
     .then(data => {
-      console.log(data.length); // wzj
+      console.log(data.length + ": findDataByDataType"); // wzj
       res.send(data);
     })
     .catch(err => {
@@ -31,6 +43,22 @@ exports.findDataByDataType = (req, res) => {
         {message: err.message || "Some error occurred while retrieving data."}
       );
     });
+};
+
+exports.getAllFoodSecurity = (req, res) => {
+  const projectID = req.query.projectid;
+  const formID = req.query.formid;
+
+  getRawData(projectID, formID)
+    .then(data => {
+      console.log(data.length); // wzj
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send(
+        {message: err.message || "Some error occurred while retrieving data."}
+      );
+    })
 };
 
 //

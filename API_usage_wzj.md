@@ -1,8 +1,8 @@
 # API Usage
 ## data
 #### get
-/api/data/:datatype\
-/api/data/:datatype?projectid=xxx&formid=xxx\
+/api/data/raw_data/:datatype\
+/api/data/raw_data/:datatype?projectid=xxx&formid=xxx\
 \
 /api/data/food_security/hfias\
 /api/data/food_security/hfias?projectid=xxx&formid=xxx\
