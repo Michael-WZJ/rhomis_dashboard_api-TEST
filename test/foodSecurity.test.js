@@ -1,5 +1,6 @@
 const assert = require("assert");
 const fs = require("../app/controllers/foodSecurity.js");
+const dt = require("../data_test/data_test.js");
 
 const makeDataList = () => {
   let indicatorData1 = {
@@ -42,11 +43,13 @@ const makeDataList = () => {
 
   return list;
 }
+
 let dataList = makeDataList();
 
 describe("testHFIAS", () => {
   it("test_count", () => {
-    console.log(fs.count(dataList));
+    //console.log(fs.count(dataList));
+    console.log(fs.count(dt.indicatorData));
   });
 
   it("test_isStandardHFIAS", () => {
