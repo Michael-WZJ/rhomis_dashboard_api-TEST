@@ -76,8 +76,6 @@ exports.foodConsumedLastMonth = foodConsumedLastMonth; // export for test
 
 const keysOfIndicator = [
   "id_unique",
-  "id_proj",
-  "id_form",
 
   "hfias_status",
   "fies_score",
@@ -90,6 +88,8 @@ let keysOfProcessed = [
   "id_unique",
   "id_country",
   "region",
+  "id_proj",
+  "id_form",
 
   "foodshortagetime_months_which"
 ];
@@ -116,9 +116,9 @@ exports.getRawData = (indicatorDataList, processedDataList) => {
   let rawDataOfProcessed = dataListOfProcessed.map(data => pickProperties(data, keysOfProcessed));
   rawDataOfProcessed.sort(funcSortById);
 
-  let rawData = rawDataOfIndicator.map((obj, index) => {
+  let rawData = rawDataOfProcessed.map((obj, index) => {
     let newObj = {};
-    Object.assign(newObj, obj, rawDataOfProcessed[index]);
+    Object.assign(newObj, obj, rawDataOfIndicator[index]);
     return newObj;
   });
 
@@ -141,9 +141,9 @@ const getFoodShortage = (dataObj) => {
   let monthsStr = dataObj.foodshortagetime_months_which;
   let monthList = [];
   if (typeof (monthsStr) === "string") {
-    let tmpList = dataObj.foodshortagetime_months_which
-      .toLowerCase().split(/\s+/); // 正则匹配多个空格 wzj
+    let tmpList = monthsStr.toLowerCase().split(/\s+/); // 正则匹配多个空格 wzj
     monthList = tmpList.filter(month => months.includes(month));
+    monthList = monthList.map(month => funcTitleCase(month));
   }
 
   return {api_food_shortage_months: monthList,
@@ -184,3 +184,8 @@ const funcSortById = (a,b) => {
     return 0;
   }
 };
+
+const funcTitleCase = (str) => {
+  return str.replace(/^[a-z]/, L => L.toUpperCase());
+};
+exports.funcTitleCase = funcTitleCase; // export for test

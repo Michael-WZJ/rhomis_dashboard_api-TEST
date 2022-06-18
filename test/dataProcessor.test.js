@@ -38,6 +38,7 @@ describe("testProcessor", () => {
 
   it("test_getDataForAPI", () => {
     let result = processor.getDataForAPI(rawDataList);
+    console.log(result);
     console.log(result[3]);
 
     propFixed3.forEach(prop => {
@@ -50,12 +51,12 @@ describe("testProcessor", () => {
     let result0 = processor.getFoodShortage(rawDataList[0]);
     //console.log(result0);
     assert.equal(result0["api_food_shortage_months_num"], 2);
-    assert.equal(result0["api_food_shortage_months"][0], "aug");
+    assert.equal(result0["api_food_shortage_months"][0], "Aug");
 
     let result8 = processor.getFoodShortage(rawDataList[8]);
     //console.log(rawDataList[8]);
     assert.equal(result8["api_food_shortage_months_num"], 3);
-    assert.equal(result8["api_food_shortage_months"][1], "jun");
+    assert.equal(result8["api_food_shortage_months"][1], "Jun");
 
     let resultTest = processor.getFoodShortage(
       {foodshortagetime_months_which : "ss"});
@@ -66,6 +67,10 @@ describe("testProcessor", () => {
       {foodshortagetime_months_which : "Aug   s"});
     //console.log(resultTest);
     assert.equal(resultTest["api_food_shortage_months_num"], 1);
+  });
+
+  it("test_funcTitleCase", () => {
+    assert.equal(processor.funcTitleCase("abc"), "Abc");
   });
 
 });
