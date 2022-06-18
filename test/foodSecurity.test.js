@@ -46,10 +46,30 @@ const makeDataList = () => {
 
 let dataList = makeDataList();
 
+
 describe("testHFIAS", () => {
   it("test_count", () => {
-    //console.log(fs.count(dataList));
-    console.log(fs.count(dt.indicatorData));
+    let result = fs.count(dataList);
+    //console.log(result);
+    assert.equal(result[0].name, "food_secure");
+    assert.equal(result[0].value, 2);
+    assert.equal(result[1].name, "mildly_fi");
+    assert.equal(result[1].value, 2);
+    assert.equal(result[2].name, "moderately_fi");
+    assert.equal(result[2].value, 3);
+    assert.equal(result[3].name, "severely_fi");
+    assert.equal(result[3].value, 1);
+
+    result = fs.count(dt.indicatorDataList);
+    //console.log(result);
+    assert.equal(result[0].name, "food_secure");
+    assert.equal(result[0].value, 2);
+    assert.equal(result[1].name, "mildly_fi");
+    assert.equal(result[1].value, 4);
+    assert.equal(result[2].name, "moderately_fi");
+    assert.equal(result[2].value, 23);
+    assert.equal(result[3].name, "severely_fi");
+    assert.equal(result[3].value, 36);
   });
 
   it("test_isStandardHFIAS", () => {

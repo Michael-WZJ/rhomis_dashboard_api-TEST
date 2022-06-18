@@ -93,9 +93,17 @@ let keysOfProcessed = [
 
   "foodshortagetime_months_which"
 ];
-
 keysOfProcessed = keysOfProcessed.concat(foodConsumedGoodSeason,
   foodConsumedBadSeason,foodConsumedLastMonth);
+
+let keysOfOmit = [
+  "foodshortagetime_months_which",
+];
+
+const months = ["jan","feb","mar","apr",
+  "may","jun","jul","aug",
+  "sep","oct","nov","dec"
+];
 
 
 //
@@ -120,14 +128,49 @@ exports.getRawData = (indicatorDataList, processedDataList) => {
 
 
 //
-const pickProperties = (data, selecKeys) => {
-  let properties = selecKeys.map(key => {
+exports.getDataForAPI = (rawDataList) => {
+  return rawDataList.map(rawDataObj => {
+    let newObj = {};
+    Object.assign(newObj, rawDataObj, getFoodShortage(rawDataObj));
+    return omitProperties(newObj, keysOfOmit);
+  });
+};
+
+
+const getFoodShortage = (dataObj) => {
+  let monthsStr = dataObj.foodshortagetime_months_which;
+  let monthList = [];
+  if (typeof (monthsStr) === "string") {
+    let tmpList = dataObj.foodshortagetime_months_which
+      .toLowerCase().split(/\s+/); // 正则匹配多个空格 wzj
+    monthList = tmpList.filter(month => months.includes(month));
+  }
+
+  return {api_food_shortage_months: monthList,
+    api_food_shortage_months_num: monthList.length};
+};
+exports.getFoodShortage = getFoodShortage; // export for test
+
+
+//
+const pickProperties = (data, selectKeys) => {
+  let properties = selectKeys.map(key => {
     return (key in data ? {[key] : data[key]} : {})
   });
 
   return properties.reduce((preResult, prop) => Object.assign(preResult, prop), {})
 }
 exports.pickProperties = pickProperties; // export for test
+
+//
+const omitProperties = (data, selectKeys) => {
+  let properties = Object.keys(data).map(key => {
+    return (selectKeys.includes(key) ? {} : {[key] : data[key]})
+  });
+
+  return properties.reduce((preResult, prop) => Object.assign(preResult, prop), {})
+}
+exports.omitProperties = omitProperties; // export for test
 
 //
 const funcSortById = (a,b) => {

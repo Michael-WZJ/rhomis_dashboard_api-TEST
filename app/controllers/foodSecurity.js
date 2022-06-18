@@ -39,6 +39,9 @@ exports.count = (indicatorDataList) => {
   return flatten(root);
 };
 
+
+
+
 const getHFIAS = (indicatorData) => {
   let fiesScore = parseInt(indicatorData.data.fies_score);
   let hfiasTmp = indicatorData.data.hfias_status;
